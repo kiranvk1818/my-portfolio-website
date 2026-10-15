@@ -37,6 +37,38 @@
 try { var t = localStorage.getItem('kvk-theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
 </script>
 <style>
+   /* Responsive foundation */
+html {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  min-width: 320px;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+canvas,
+video {
+  max-width: 100%;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.g12 > *,
+.inner,
+.row,
+.copy,
+.fl,
+.fr {
+  min-width: 0;
+}
 /* Layout: bello's frame. Twelve faint column lines run behind everything, content sits in a ten-column ruled frame,
    header is a fixed row of cells with a scrolling clock ticker, labels are tiny uppercase, headings are lowercase with a full stop.
    Light = sage ground, red ink. Dark = red ground, sage ink. White is only a highlight. */
@@ -70,7 +102,12 @@ try { var t = localStorage.getItem('kvk-theme'); if (t === 'dark' || t === 'ligh
   --ease: cubic-bezier(0.65, 0, 0.35, 1);
   --fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   --spring: 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-  --pad: 12px;
+ --pad: clamp(12px, 3vw, 24px);
+
+  --space-6: clamp(24px, 6vw, 40px);
+  --space-7: clamp(40px, 10vw, 64px);
+  --space-8: clamp(56px, 12vw, 96px);
+  --space-9: clamp(96px, 18vw, 160px);
 }
 @media (min-width: 768px) { :root { --bar: 64px; --pad: 16px; } }
 @media (prefers-color-scheme: dark) {
