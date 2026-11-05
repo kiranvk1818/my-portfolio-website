@@ -3,7 +3,7 @@
 <title>Kiran V K | Co-founder & CMO at AarohCare</title>
 <meta name="description" content="Kiran V K is a co-founder and CMO at AarohCare, founder of SaveMyLink, and a former project coordinator at Talrop. See the work.">
 <meta name="author" content="Kiran V K">
-<link rel="canonical" href="https://yourdomain.com/">
+<link rel="canonical" href="https://kiranvk.netlify.app/">
 <meta name="theme-color" content="#6A0C06">
 
 <!-- Open Graph (WhatsApp, LinkedIn, Facebook, Instagram) -->
@@ -11,7 +11,7 @@
 <meta property="og:site_name" content="Kiran V K">
 <meta property="og:title" content="Kiran V K | Co-founder & CMO at AarohCare">
 <meta property="og:description" content="Co-founder and CMO at AarohCare, founder of SaveMyLink. See what I've built.">
-<meta property="og:url" content="https://yourdomain.com/">
+<meta property="og:url" content="https://kiranvk.netlify.app/">
 <meta property="og:image" content="https://kiranvk.netlify.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,14 +22,13 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Kiran V K | Co-founder & CMO at AarohCare">
 <meta name="twitter:description" content="Co-founder and CMO at AarohCare, founder of SaveMyLink. See what I've built.">
-<meta name="twitter:image" content="https:https://kiranvk.netlify.app/og-image.png">
+<meta name="twitter:image" content="https://kiranvk.netlify.app/og-image.png">
 
 <!-- Icons -->
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
    <meta charset=utf8>
    <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Kiran V K</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap">
@@ -365,6 +364,48 @@ a.row { color: inherit; }
   .tr, .tr2 { width: auto; flex-wrap: wrap; }
   .ticker ul[aria-hidden="true"], .tr .set[aria-hidden="true"] { display: none; }
 }
+
+/* tactile chrome */
+.top {
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+.burger {
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+.theme, .burger, .btn, .cbtn, .fnav a, .row, .menu nav a {
+  touch-action: manipulation;
+}
+.theme:active, .burger:active, .btn:active, .cbtn:active, .fnav a:active {
+  transform: scale(0.97);
+}
+.btn, .cbtn, .theme, .burger, .fnav a {
+  transition: background-color var(--fast), color var(--fast), border-color var(--fast), transform 180ms ease-out;
+}
+.row:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline-offset: -2px;
+}
+.row:active { background-size: 100% 100%; color: var(--hi-fg); }
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 650ms ease, transform 650ms var(--ease);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-transparency: reduce) {
+  .top, .burger { background: var(--bg); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
 </style>
 
 <header class="top">
@@ -491,6 +532,22 @@ a.row { color: inherit; }
   var root = document.documentElement;
   var mq = window.matchMedia('(prefers-color-scheme: dark)');
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* reveal content as it enters the viewport */
+  var revealItems = [].slice.call(document.querySelectorAll('.sec, .foot, .row'));
+  revealItems.forEach(function (el) { el.classList.add('reveal'); });
+  if (!reduce && 'IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(function (entries, observer) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealItems.forEach(function (el) { revealObserver.observe(el); });
+  } else {
+    revealItems.forEach(function (el) { el.classList.add('is-visible'); });
+  }
 
   /* theme */
   var tbtn = document.getElementById('theme'), ttxt = document.getElementById('theme-txt'), troll = document.getElementById('theme-roll');
