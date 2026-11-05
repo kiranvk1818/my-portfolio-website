@@ -230,6 +230,10 @@ main { padding-top: var(--bar); }
 }
 .roles { grid-column: span 3; padding: var(--pad); border-top: 1px solid var(--line); display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; font-size: var(--text-lg); line-height: 1.15; font-weight: 500; letter-spacing: -0.02em; }
 .roles li { opacity: 0; animation: fade 0.6s ease forwards; animation-delay: calc(0.8s + var(--i) * 120ms); }
+.resume-cta { grid-column: 1 / -1; display: inline-flex; align-items: center; justify-content: space-between; gap: 16px; margin: var(--pad); padding: 12px 14px; border: 1px solid var(--line); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; transition: background-color var(--fast), color var(--fast); }
+.resume-cta:hover { background: var(--fg); color: var(--bg); }
+.resume-cta i { font-style: normal; font-size: 1rem; letter-spacing: 0; transition: transform var(--fast); }
+.resume-cta:hover i { transform: translateY(3px); }
 @keyframes fade { to { opacity: 1; } }
 .mono { grid-column: span 1; border-top: 1px solid var(--line); border-left: 1px solid var(--line); padding: var(--pad); display: flex; align-items: center; justify-content: center; }
 .mono svg { width: 100%; max-width: 110px; height: auto; overflow: visible; }
@@ -243,6 +247,7 @@ main { padding-top: var(--bar); }
 @media (min-width: 768px) {
   .mark { grid-column: span 7; }
   .roles { grid-column: span 3; border-top: 0; border-left: 1px solid var(--line); }
+  .resume-cta { grid-column: 8 / span 3; grid-row: 2; align-self: end; margin: var(--pad); }
   .mono { grid-column: span 2; border-top: 0; }
 }
 
@@ -405,6 +410,9 @@ a.row { color: inherit; }
         <li style="--i:1">Project coordinator</li>
         <li style="--i:2">Startup builder</li>
       </ul>
+      <a class="resume-cta rh" id="resume-download" href="Kiran_VK_Resume%20%281%29.pdf" download="Kiran_VK_Resume.pdf" data-light-href="Kiran_VK_Resume%20%281%29.pdf" data-light-download="Kiran_VK_Resume.pdf" data-dark-href="Kiran_VK_Resume_Dark.pdf" data-dark-download="Kiran_VK_Resume_Dark.pdf" aria-label="Download light mode resume">
+        <span class="roll" data-t="download resume"><span>download resume</span></span><i aria-hidden="true">↓</i>
+      </a>
       <div class="mono" aria-hidden="true">
         <svg viewBox="0 0 120 100" focusable="false">
           <ellipse class="orbit" cx="60" cy="50" rx="56" ry="40"/>
@@ -493,7 +501,7 @@ a.row { color: inherit; }
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* theme */
-  var tbtn = document.getElementById('theme'), ttxt = document.getElementById('theme-txt'), troll = document.getElementById('theme-roll');
+  var tbtn = document.getElementById('theme'), ttxt = document.getElementById('theme-txt'), troll = document.getElementById('theme-roll'), resume = document.getElementById('resume-download');
   function current() { var t = root.getAttribute('data-theme'); return t || (mq.matches ? 'dark' : 'light'); }
   function paintTheme() {
     var c = current(), label = c === 'dark' ? 'Dark' : 'Light';
@@ -501,6 +509,9 @@ a.row { color: inherit; }
     tbtn.classList.toggle('light', c === 'light');
     tbtn.setAttribute('aria-pressed', c === 'dark' ? 'true' : 'false');
     tbtn.setAttribute('aria-label', 'Switch to ' + (c === 'dark' ? 'light' : 'dark') + ' mode');
+    resume.href = resume.getAttribute('data-' + c + '-href');
+    resume.download = resume.getAttribute('data-' + c + '-download');
+    resume.setAttribute('aria-label', 'Download ' + label.toLowerCase() + ' mode resume');
     window.dispatchEvent(new Event('kvk-theme'));
   }
   tbtn.addEventListener('click', function () {
