@@ -269,7 +269,7 @@ main { padding-top: var(--bar); }
 .hero { display: flex; flex-direction: column; min-height: calc(100svh - var(--bar)); min-height: calc(100dvh - var(--bar)); border-bottom: 1px solid var(--line); }
 .hero-top { flex: 1; border-bottom: 1px solid var(--line); }
 .art { grid-column: 1 / -1; position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-bottom: 0; }
-.art canvas { position: absolute; inset: 0; display: block; color: var(--fg); touch-action: pan-y; }
+.art canvas { position: absolute; inset: 0; display: block; color: var(--fg); touch-action: pan-y; cursor: crosshair; }
 .kin { display: none; position: relative; overflow: hidden; }
 .kin i { position: absolute; left: 50%; top: 50%; translate: -50% -50%; aspect-ratio: 1; border: 1px solid var(--fg); animation: spin 30s linear infinite; }
 .kin i:nth-child(1) { width: 62%; }
@@ -412,7 +412,8 @@ a.row { color: inherit; }
   .big { font-size: 19vw; }
 }
 @media (max-width: 767px) {
-  .theme .tiny { display: none; }
+  .theme .tiny { display: inline; }
+  .theme { gap: 6px; padding-inline: 8px; }
   .resume-top { padding-inline: 8px; }
   .menu nav a { font-size: clamp(1.8rem, 10vw, 3rem); }
   .row { grid-template-columns: minmax(0, 1fr) 24px; gap: 6px var(--space-3); }
@@ -776,8 +777,14 @@ a.row { color: inherit; }
       }
     }
   }
+  function pointAt(e) {
+    var r = box.getBoundingClientRect();
+    tx = Math.max(0, Math.min(W, e.clientX - r.left));
+    ty = Math.max(0, Math.min(H, e.clientY - r.top));
+  }
   function loop(now) { if (!running) return; draw(now); raf = requestAnimationFrame(loop); }
-  box.addEventListener('pointermove', function (e) { var r = box.getBoundingClientRect(); tx = e.clientX - r.left; ty = e.clientY - r.top; });
+  box.addEventListener('pointerdown', function (e) { pointAt(e); });
+  box.addEventListener('pointermove', function (e) { pointAt(e); });
   box.addEventListener('pointerleave', function () { tx = null; ty = null; });
   window.addEventListener('kvk-theme', function () { readColor(); if (!running) draw(performance.now()); });
   if (window.ResizeObserver) new ResizeObserver(size).observe(box); else window.addEventListener('resize', size);
