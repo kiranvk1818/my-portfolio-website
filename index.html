@@ -91,12 +91,13 @@ try { var t = localStorage.getItem('kvk-theme'); if (t === 'dark' || t === 'ligh
    /* Responsive foundation */
 html {
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
+  -webkit-overflow-scrolling: touch;
 }
 
 img,
@@ -179,7 +180,7 @@ a {
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font); font-size: var(--text-base); line-height: 1.5; transition: background-color var(--fast), color var(--fast); overflow-x: hidden; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font); font-size: var(--text-base); line-height: 1.5; transition: background-color var(--fast), color var(--fast); overflow-x: clip; }
 html { scrollbar-color: var(--fg) var(--bg); }
 ::-webkit-scrollbar { width: 12px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
